@@ -6,5 +6,38 @@
 
 module.exports = {
   siteName: 'Gridsome',
-  plugins: []
+  plugins: [
+    // {
+    //   use: '@gridsome/source-filesystem',
+    //   options: {
+    //     typeName: 'BlogPost',
+    //     path: './content/blog/**/*.md',
+    //     remark: {
+    //     }
+    //   }
+    // },
+    {
+      use: '@gridsome/source-strapi',
+      options: {
+        apiURL: process.env.GRIDSOME_API_URL,
+        queryLimit: 1000,
+        contentTypes: ['post', 'project', 'category'],
+        singleTypes: ['main']
+      }
+    }
+  ],
+  templates: {
+    StrapiPost: [
+      {
+        path: '/post/:id',
+        component: './src/templates/Post.vue'
+      }
+    ],
+    StrapiProject: [
+      {
+        path: '/project/:id',
+        component: './src/templates/Project.vue'
+      }
+    ]
+  }
 }
